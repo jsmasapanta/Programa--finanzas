@@ -3,7 +3,8 @@ const cors = require("cors")
 const helmet = require("helmet")
 const morgan = require("morgan")
 const authRoutes = require("./modules/auth/auth.routes")
-
+const ingresosRoutes = require("./modules/ingresos/ingresos.routes")
+const gastosRoutes = require("./modules/gastos/gastos.routes")
 const app = express()
 
 app.use(helmet())
@@ -18,5 +19,6 @@ app.get("/health", (req, res) => {
 })
 
 app.use("/api/auth", authRoutes)
-
+app.use("/api/ingresos", ingresosRoutes)
+app.use("/api/gastos", gastosRoutes)
 module.exports = app
