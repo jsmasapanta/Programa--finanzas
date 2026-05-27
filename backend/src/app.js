@@ -5,6 +5,8 @@ const morgan = require("morgan")
 const authRoutes = require("./modules/auth/auth.routes")
 const ingresosRoutes = require("./modules/ingresos/ingresos.routes")
 const gastosRoutes = require("./modules/gastos/gastos.routes")
+const deudasRoutes = require("./modules/deudas/deudas.routes")
+const tarjetasRoutes = require("./modules/tarjetas/tarjetas.routes")
 const app = express()
 
 app.use(helmet())
@@ -21,4 +23,6 @@ app.get("/health", (req, res) => {
 app.use("/api/auth", authRoutes)
 app.use("/api/ingresos", ingresosRoutes)
 app.use("/api/gastos", gastosRoutes)
+app.use("/api/deudas", deudasRoutes)
+app.use("/api/tarjetas", tarjetasRoutes)
 module.exports = app

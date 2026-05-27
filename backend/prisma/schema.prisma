@@ -17,6 +17,8 @@ model User {
   alertasActivas Boolean   @default(true)
   ingresos       Ingreso[]
   gastos         Gasto[]
+  deudas         Deuda[]
+  tarjetas       TarjetaCredito[]
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
 }
@@ -45,4 +47,41 @@ model Gasto {
   user         User     @relation(fields: [userId], references: [id])
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+}
+
+model Deuda {
+  id            Int      @id @default(autoincrement())
+  entidad       String
+  tipo          String
+  montoOriginal Decimal  @db.Decimal(10,2)
+  saldoActual   Decimal  @db.Decimal(10,2)
+  tasaInteres   Decimal? @db.Decimal(5,2)
+  cuotaMensual  Decimal? @db.Decimal(10,2)
+  fechaInicio   DateTime
+  fechaFin      DateTime?
+  estado        String   @default("ACTIVA")
+  descripcion   String?
+  userId        Int
+  user          User     @relation(fields: [userId], references: [id])
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model TarjetaCredito {
+  id            Int      @id @default(autoincrement())
+  banco         String
+  nombreTarjeta String
+  franquicia    String
+  cupoTotal     Decimal  @db.Decimal(10,2)
+  saldoUsado    Decimal  @db.Decimal(10,2)
+  pagoMinimo    Decimal? @db.Decimal(10,2)
+  fechaCorte    Int
+  fechaPago     Int
+  tasaInteres   Decimal? @db.Decimal(5,2)
+  estado        String   @default("ACTIVA")
+  descripcion   String?
+  userId        Int
+  user          User     @relation(fields: [userId], references: [id])
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }
