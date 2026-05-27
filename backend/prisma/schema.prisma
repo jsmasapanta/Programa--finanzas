@@ -18,6 +18,7 @@ model User {
   ingresos       Ingreso[]
   gastos         Gasto[]
   deudas         Deuda[]
+  pagos          Pago[]
   tarjetas       TarjetaCredito[]
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
@@ -62,6 +63,8 @@ model Deuda {
   estado        String   @default("ACTIVA")
   descripcion   String?
   userId        Int
+  pagos         Pago[]
+  amortizaciones Amortizacion[]
   user          User     @relation(fields: [userId], references: [id])
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
@@ -81,7 +84,41 @@ model TarjetaCredito {
   estado        String   @default("ACTIVA")
   descripcion   String?
   userId        Int
+  pagos         Pago[]
   user          User     @relation(fields: [userId], references: [id])
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Pago {
+  id          Int              @id @default(autoincrement())
+  tipo        String
+  monto       Decimal          @db.Decimal(10,2)
+  fechaPago   DateTime
+  descripcion String?
+  deudaId     Int?
+  tarjetaId   Int?
+  userId      Int
+  deuda       Deuda?           @relation(fields: [deudaId], references: [id])
+  tarjeta     TarjetaCredito?  @relation(fields: [tarjetaId], references: [id])
+  user        User             @relation(fields: [userId], references: [id])
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+}
+
+model Amortizacion {
+  id            Int      @id @default(autoincrement())
+  numeroCuota   Int
+  fechaPago     DateTime
+  cuota         Decimal  @db.Decimal(10,2)
+  capital       Decimal? @db.Decimal(10,2)
+  interes       Decimal? @db.Decimal(10,2)
+  seguro        Decimal? @db.Decimal(10,2)
+  saldoRestante Decimal? @db.Decimal(10,2)
+  estado        String   @default("PENDIENTE")
+  descripcion   String?
+  deudaId       Int
+  deuda         Deuda    @relation(fields: [deudaId], references: [id])
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 }
