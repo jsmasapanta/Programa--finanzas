@@ -15,6 +15,7 @@ const reportesRoutes = require("./modules/reportes/reportes.routes")
 const { errorHandler, notFound } = require("./middlewares/errorHandler")
 
 const app = express()
+app.set('trust proxy', 1)
 
 // ── Seguridad ─────────────────────────────────────────────────────────────────
 app.use(helmet())
