@@ -21,11 +21,10 @@ app.set('trust proxy', 1)
 app.use(helmet())
 app.use(cors({
   origin: [
-    process.env.CORS_ORIGIN || "*",
-    "http://localhost:58689",
-    "http://localhost:62871",
-    "http://localhost:5173",
-    /^http:\/\/localhost:\d+$/  // permite cualquier puerto localhost
+    'https://finanzas-frontend-aohj.vercel.app',
+    'https://finanzas-frontend-vqwf.vercel.app',
+    /\.vercel\.app$/,
+    '*'
   ],
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"]
